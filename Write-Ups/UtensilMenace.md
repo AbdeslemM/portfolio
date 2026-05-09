@@ -72,9 +72,12 @@ For the first question, it is clear that we need to check Windows Event Logs. Th
 
 Since the user is **myson**, I filtered the logs and identified the last logon time.
 
+<img width="1560" height="820" alt="UtensilMenace-Q1" src="https://github.com/user-attachments/assets/78c04c28-1093-43b3-ae37-d0c4c8357a8a" />
+
+
 **Answer ==> 2025-04-27 07:44:04**
 
-<img width="1560" height="820" alt="UtensilMenace-Q1" src="https://github.com/user-attachments/assets/261982ed-2726-46fa-b5c2-d34577cf62f9" />
+
 
 ---
 
@@ -86,7 +89,8 @@ Then, I searched for this name in the MFT to get the full path of the executable
 
 **Answer ==> C:\Users\myson\Desktop\Games\tmp\vmware\release\Feeding_Frenzy_Win_Preinstalled_EN\Game Files\FeedingFrenzy.exe**
 
-<img width="1560" height="566" alt="UtensilMenace-Q2" src="https://github.com/user-attachments/assets/ccbd45b6-3b48-473e-9347-02c4341abc15" />
+<img width="1560" height="566" alt="UtensilMenace-Q2" src="https://github.com/user-attachments/assets/e67ed70d-f652-4ad9-a2a5-e5d4e366f9bd" />
+
 
 ---
 
@@ -108,7 +112,8 @@ From there, I found the SHA1 hash.
 
 **Answer ==> 9a8755180de66a990af80cfc0e32dc0f7cb25643**
 
-<img width="1560" height="820" alt="UtensilMenace-Q3" src="https://github.com/user-attachments/assets/33a29185-f770-4b4b-9701-acdd548829da" />
+<img width="1560" height="820" alt="UtensilMenace-Q3" src="https://github.com/user-attachments/assets/f4e67a57-0f22-4cb4-a926-4bc9980e45cb" />
+
 
 ---
 
@@ -128,14 +133,16 @@ Q4) The CEO said that his son downloaded the game as a ZIP file from a website. 
 
 **Answer ==> http://freegamebychicken.wowza/release/FeedingFrenzy.zip**
 
-<img width="1546" height="807" alt="UtensilMenace-Q4" src="https://github.com/user-attachments/assets/80988615-5dc9-4ce3-806e-b20b5ab30591" />
+<img width="1546" height="807" alt="UtensilMenace-Q4" src="https://github.com/user-attachments/assets/5468c51c-60a9-438d-b034-44ad95055f1f" />
+
 
 
 Q5) There was one suspicious binary downloaded and executed two days prior to this incident. What is the full path of this file and what is the IP address associated with it?(2 points)
 
 **Answer ==> C:\Users\myson\Downloads\reverse.exe, 192.168.189.129**
 
-<img width="1546" height="812" alt="UtensilMenace-Q5" src="https://github.com/user-attachments/assets/f63364ef-ca76-45a6-ab8f-22b13c380f89" />
+<img width="1546" height="812" alt="UtensilMenace-Q5" src="https://github.com/user-attachments/assets/33825c29-d1a0-48f9-9b78-df87798f2b4f" />
+
 
 
 
@@ -147,8 +154,7 @@ UserAssist provides information about program execution, including run counts an
 
 **Answer ==> 3, 2025-04-27 07:26:15**
 
-
-<img width="1547" height="810" alt="UtensilMenace-Q6" src="https://github.com/user-attachments/assets/8a9892ff-8370-47f5-8d99-89947a01e696" />
+<img width="1547" height="810" alt="UtensilMenace-Q6" src="https://github.com/user-attachments/assets/15da05c2-f1dc-4823-9cab-e03228ba1d8c" />
 
 ---
 
@@ -160,7 +166,8 @@ It was clear that **ipconfig.exe** was executed, which is commonly used to retri
 
 **Answer ==> ipconfig.exe**
 
-<img width="1548" height="808" alt="UtensilMenace-Q7" src="https://github.com/user-attachments/assets/d6cab042-d4c7-4f3b-8d05-9b896db1b6c5" />
+<img width="1548" height="808" alt="UtensilMenace-Q7" src="https://github.com/user-attachments/assets/1b0a4d53-6aeb-4513-bb96-02af8658008a" />
+
 
 ---
 
@@ -182,7 +189,8 @@ This behavior maps to the MITRE ATT&CK technique:
 
 **T1546.008 – Accessibility Features**
 
-<img width="1550" height="808" alt="UtensilMenace-Q9-Q10" src="https://github.com/user-attachments/assets/e7e6f199-5f47-48ce-a9d2-c74f847bc234" />
+<img width="1550" height="808" alt="UtensilMenace-Q9-Q10" src="https://github.com/user-attachments/assets/d07d202c-097c-4cfc-acdd-11a2f4bab1c6" />
+
 
 ---
 
@@ -230,7 +238,8 @@ By analyzing this path, I found a suspicious entry that was added by the attacke
 **Answer ==> DoraExplorer, C:\Windows\exploer.exe**
 
 
-<img width="1548" height="811" alt="UtensilMenace-Q13-Q14" src="https://github.com/user-attachments/assets/c7d95eee-6db7-4b5a-b96f-030d505295ce" />
+<img width="1548" height="811" alt="UtensilMenace-Q13-Q14" src="https://github.com/user-attachments/assets/73baa745-0e57-4f0c-a658-c6782eb5d66c" />
+
 
 ---
 
@@ -243,7 +252,8 @@ I focused on the appearance of the suspicious file **exploer.exe** (note the typ
 
 **Answer ==> 2025-04-27 07:35:01, FeedingFrenzy.exe**
 
-<img width="1547" height="812" alt="UtensilMenace-Q15" src="https://github.com/user-attachments/assets/0df7b1fe-f42d-425c-b7a0-12af74bac096" />
+<img width="1547" height="812" alt="UtensilMenace-Q15" src="https://github.com/user-attachments/assets/7a606dcf-5f56-41f4-9d12-f51a90949d32" />
+
 
 ---
 
@@ -255,14 +265,16 @@ For the final part, there are two ways to identify the persistence mechanism:
    - Event ID **7045** (Service Installed)
    - This shows when a new service is created and what executable it points to
 
-<img width="1544" height="812" alt="UtensilMenace-Q16-Q17-Op2" src="https://github.com/user-attachments/assets/1857b32a-29c6-4df5-8820-14823e15a0a2" />
+<img width="1544" height="812" alt="UtensilMenace-Q16-Q17-Op2" src="https://github.com/user-attachments/assets/34b36ec4-c943-45f8-9579-6266e59527c2" />
+
 
 
 2. **Registry Analysis**
    - Path: `ControlSet001\Services\`
    - This contains all services along with their configurations and timestamps
 
-<img width="1548" height="806" alt="UtensilMenace-Q16-Q17" src="https://github.com/user-attachments/assets/1e254be5-5d00-45b9-a0c6-fc30c6fe0f35" />
+<img width="1548" height="806" alt="UtensilMenace-Q16-Q17" src="https://github.com/user-attachments/assets/b95abf7f-adde-4834-848d-4ab9667d9cdd" />
+
 
 
 
@@ -286,4 +298,5 @@ This investigation highlights how attackers can leverage legitimate Windows feat
 ---
 
 
-<img width="879" height="819" alt="UtensilMenace" src="https://github.com/user-attachments/assets/f4862983-3760-42cc-a153-bd5e2cd40517" />
+<img width="879" height="819" alt="UtensilMenace" src="https://github.com/user-attachments/assets/a0b8407a-d1ed-46ed-b032-5da0ee84a88c" />
+
