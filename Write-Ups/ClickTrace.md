@@ -68,7 +68,8 @@ That URL was the starting point of the infection chain.
 
 **Answer ==> https://tinyurl.com/57ecjnrm**
 
-<img width="1547" height="804" alt="ClickTrace-Q1" src="https://github.com/user-attachments/assets/d3e31e4f-c78c-46b0-ba38-66ddf16476c8" />
+<img width="1547" height="804" alt="ClickTrace-Q1" src="https://github.com/user-attachments/assets/dacaede0-116d-4e58-b6cb-42300d0834d4" />
+
 
 ---
 
@@ -113,7 +114,8 @@ This gave me the following hash:
 
 4f8a96cbed7b7b85df044df253a7117da21d2eda5a94b353ecf8e66eecbd4f67
 
-<img width="1548" height="811" alt="ClickTrace-Q3-P1" src="https://github.com/user-attachments/assets/58269129-95b8-4bc1-b4f4-ddf01a9938f0" />
+<img width="1548" height="811" alt="ClickTrace-Q3-P1" src="https://github.com/user-attachments/assets/834f2e40-dddd-4a10-aa62-e110f5ed01f2" />
+
 
 
 I confirmed that this file is malicious, but this hash was not accepted in the lab.
@@ -124,7 +126,8 @@ Final confirmed hash:
 
 **Answer ==> cbeaf0c9f54d0d8b31a292a704a1ec53a3e37fca197cfff76f1d578b156d81de**
 
-<img width="1912" height="928" alt="ClickTrace-Q3-P2" src="https://github.com/user-attachments/assets/6de1688a-9b96-4fb3-abb4-691e0489194e" />
+<img width="1912" height="928" alt="ClickTrace-Q3-P2" src="https://github.com/user-attachments/assets/5aadfe25-e11d-4a86-b042-5a1c1016b266" />
+
 
 ---
 
@@ -154,7 +157,8 @@ From this, I found the first drop location:
 
 **Answer ==> C:\Users\Administrator\AppData\Local\Amnesia**
 
-<img width="1547" height="810" alt="ClickTrace-Q4-Q5" src="https://github.com/user-attachments/assets/0468edc1-88dd-4380-8a0b-02c03449b09f" />
+<img width="1547" height="810" alt="ClickTrace-Q4-Q5" src="https://github.com/user-attachments/assets/14030600-9f88-40ba-bc84-c780860a0ac6" />
+
 
 ---
 
@@ -177,7 +181,8 @@ Timestomping is used by attackers to manipulate file metadata and evade detectio
 
 **Answer ==> T1070.006**
 
-<img width="1896" height="811" alt="ClickTrace-Q5" src="https://github.com/user-attachments/assets/94f674c1-7ce5-4058-b9f0-e2d6620564a7" />
+<img width="1896" height="811" alt="ClickTrace-Q5" src="https://github.com/user-attachments/assets/e0ab4d62-7237-49a3-824c-2d2f56be6077" />
+
 
 ---
 
@@ -205,7 +210,8 @@ This confirmed that tcpvcon.exe was created during execution.
 
 **Answer ==> tcpvcon.exe**
 
-<img width="1546" height="810" alt="ClickTrace-Q6-Q7" src="https://github.com/user-attachments/assets/bf85acf8-6235-415e-8223-209c2446435f" />
+<img width="1546" height="810" alt="ClickTrace-Q6-Q7" src="https://github.com/user-attachments/assets/5534cd49-4d33-43a0-a0a9-265a6c86bd2a" />
+
 
 ---
 
@@ -226,7 +232,8 @@ Using TCPView from Sysinternals, I was able to observe suspicious outbound conne
 
 **Answer ==> EtherHa.exe**
 
-<img width="1919" height="936" alt="ClickTrace-Q6-Q7-Q8-Malware behavior" src="https://github.com/user-attachments/assets/5e6f7091-2cfa-414c-83e6-050b9d6aaa95" />
+<img width="1919" height="936" alt="ClickTrace-Q6-Q7-Q8-Malware behavior" src="https://github.com/user-attachments/assets/fb3928c9-5d90-4e31-86f9-af1d25b62160" />
+
 
 
 ---
@@ -249,7 +256,8 @@ The identified C2 server IP is:
 
 **Answer ==> 217.138.194.181**
 
-<img width="1548" height="812" alt="ClickTrace-Q8" src="https://github.com/user-attachments/assets/f347f7a4-d856-4e83-9c28-3466d1afabb3" />
+<img width="1548" height="812" alt="ClickTrace-Q8" src="https://github.com/user-attachments/assets/46b7fbce-c444-4b9a-a77a-5d3c6027e1ab" />
+
 
 
 ---
@@ -282,7 +290,8 @@ MITRE ATT&CK: T1053 – Scheduled Task Persistence
 
 **Answer ==> C:\Windows\System32\Tasks\CtrlTlsVT1**
 
-<img width="1546" height="808" alt="ClickTrace-Q9" src="https://github.com/user-attachments/assets/e43205ef-93fe-4994-be66-bdb8974429a9" />
+<img width="1546" height="808" alt="ClickTrace-Q9" src="https://github.com/user-attachments/assets/49570181-d34d-45dd-81f3-30b07b8a52c8" />
+
 
 ---
 
@@ -314,4 +323,5 @@ Persistence mechanisms
 
 All working together to achieve and maintain system compromise.
 
-<img width="869" height="816" alt="ClickTraceDone" src="https://github.com/user-attachments/assets/ba7c6600-f9b4-4af7-8e87-edba644221d0" />
+<img width="869" height="816" alt="ClickTraceDone" src="https://github.com/user-attachments/assets/6099c744-190e-4251-9e34-8f871a2df1f6" />
+
