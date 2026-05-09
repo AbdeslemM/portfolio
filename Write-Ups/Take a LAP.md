@@ -46,7 +46,9 @@ For this lab, we are provided with only one disk image to analyze:
 `71289f71-0000-0000-0000-501f00000000.vhdx`
 
 So the investigation will mainly focus on exploring this disk to gather system details and analyze the Active Directory environment.
-<img width="1550" height="842" alt="Take-A-Lap-Discovery" src="https://github.com/user-attachments/assets/66a70817-c084-4ce5-a46e-dd72ea8e252a" />
+
+<img width="1550" height="842" alt="Take-A-Lap-Discovery" src="https://github.com/user-attachments/assets/84d392e6-43aa-47b9-9cb3-52f77263f989" />
+
 
 
 ## Investigation submission
@@ -71,7 +73,9 @@ Using this method, I was able to get the hostname, and also the forest root doma
 
 ## Q2) What is the forest root domain name?
 **Answer ==> lab.BTLO.com**
-<img width="1560" height="854" alt="Take-A-Lap-Q1-Q2" src="https://github.com/user-attachments/assets/65412692-51db-49ea-9937-4bcfc85717f5" />
+
+<img width="1560" height="854" alt="Take-A-Lap-Q1-Q2" src="https://github.com/user-attachments/assets/7aa3f57d-96f6-46be-8c3a-423286fe1995" />
+
 
 Now to move to Q3, I think we are going to need to use AD Explorer to get some information.
 
@@ -87,7 +91,9 @@ After loading it, we can explore the Active Directory structure, and we find the
 ## Q3) Name all the non-default Organizational Units (OUs) that a domain administrator created. List the OUs in alphabetical order
 
 **Answer ==> Administrators, Employees, Servers, Workstations**
-<img width="1560" height="782" alt="Take-A-Lap-Q3" src="https://github.com/user-attachments/assets/10bd22eb-1f0e-4f22-9862-ca3871891e09" />
+
+<img width="1560" height="782" alt="Take-A-Lap-Q3" src="https://github.com/user-attachments/assets/943470d7-4ddd-4b31-b34e-15dd3ea1e24c" />
+
 
 ---
 
@@ -96,7 +102,9 @@ After loading it, we can explore the Active Directory structure, and we find the
 For Q4, I had to do some research. Based on the articles I read, the attribute that defines these properties is:
 
 **Answer ==> userAccountControl**
-<img width="916" height="458" alt="Take-A-Lap-Q4" src="https://github.com/user-attachments/assets/3b5ccefc-edba-47bd-be96-32477e676e55" />
+
+<img width="916" height="458" alt="Take-A-Lap-Q4" src="https://github.com/user-attachments/assets/1e8068e3-6152-4549-9f10-781fc6d3b2bf" />
+
 
 
 ---
@@ -121,7 +129,9 @@ This value includes the 0x10000 flag, confirming that the password is set to nev
 
 **Answer:  
 Kyla Cornell, 0x10200**
-<img width="1560" height="546" alt="Take-A-Lap-Q5" src="https://github.com/user-attachments/assets/986fecc3-b120-40ac-bfe8-7c93f9ad405b" />
+
+<img width="1560" height="546" alt="Take-A-Lap-Q5" src="https://github.com/user-attachments/assets/a1b9e647-498f-4232-87ba-b9f97c69bed5" />
+
 
 ---
 
@@ -145,7 +155,9 @@ This value contains the 0x0002 flag, indicating that the account is disabled.
 
 **Answer:  
 Regina Kirk, 0x202**
-<img width="1560" height="551" alt="Take-A-Lap-Q6" src="https://github.com/user-attachments/assets/0c0c3b99-463b-4d55-bc4a-e383687576bf" />
+
+<img width="1560" height="551" alt="Take-A-Lap-Q6" src="https://github.com/user-attachments/assets/b754ba87-5860-49ab-9201-df55746ba8c4" />
+
 
 ---
 
@@ -156,7 +168,9 @@ For Q7, it is much easier. We just need to compare the given naming convention w
 The only account that does not match the convention is **roy.nix**, which corresponds to the user:
 
 **Answer ==> Royce Nixon**
-<img width="1562" height="552" alt="Take-A-Lap-Q7" src="https://github.com/user-attachments/assets/03143f0c-20d2-4f74-8b09-691c756679e0" />
+
+<img width="1562" height="552" alt="Take-A-Lap-Q7" src="https://github.com/user-attachments/assets/13012b9e-213e-477f-8fa0-c491b6bda002" />
+
 
 ## Q8) What are the Display Names of the two Group Policy Objects (GPOs) that were created by a domain administrator?
 
@@ -173,8 +187,11 @@ CN={099039F7-F8A8-4290-B3D2-ACDA4DAFEA44} → LAPSSettings
 CN={B5C53324-3ABD-472F-934F-0CD0C635452F} → PasswordEnforcement  
 
 **Answer ==> LAPSSettings, PasswordEnforcement**
-<img width="1563" height="852" alt="Take-A-Lap-Q8" src="https://github.com/user-attachments/assets/56733feb-c7ac-4652-99b3-543775c77c20" />
-<img width="1560" height="852" alt="Take-A-Lap-Q8-1" src="https://github.com/user-attachments/assets/5e8b6790-607a-49d8-8ab6-b92fb2148f54" />
+
+<img width="1563" height="852" alt="Take-A-Lap-Q8" src="https://github.com/user-attachments/assets/8416f3fe-eb4e-47ff-b799-f6ceca0af427" />
+<img width="1560" height="852" alt="Take-A-Lap-Q8-1" src="https://github.com/user-attachments/assets/3b5f99d5-b67a-44c9-9296-24f4033c4dc4" />
+
+
 ---
 
 ## Q9) What are the names of the policy settings being enabled in the first GPO?
@@ -188,7 +205,9 @@ Under the user `kibeth.admin` on the Desktop, I found a file that contains most 
 From this report file, we can identify the enabled policy settings.
 
 **Answer ==> Enable local admin password management, Name of administrator account to manage, Password Settings**
-<img width="1566" height="856" alt="Take-A-Lap-Q9" src="https://github.com/user-attachments/assets/8654c55c-79f9-4812-bc12-1279d7014546" />
+
+<img width="1566" height="856" alt="Take-A-Lap-Q9" src="https://github.com/user-attachments/assets/7e4fd35d-444e-402f-b90b-359d02424e52" />
+
 
 ---
 
@@ -206,7 +225,10 @@ In this path, I found a file called `GptTmpl.inf`, which contains the password p
 - PasswordHistorySize = 12  
 
 **Answer ==> 71, 37, 14, 12**
-<img width="1563" height="503" alt="Take-A-Lap-Q10" src="https://github.com/user-attachments/assets/0633401c-4990-41c9-b6b4-e3cfc91647ca" />
+
+<img width="1563" height="503" alt="Take-A-Lap-Q10" src="https://github.com/user-attachments/assets/e98978c7-2a00-4eb1-8f9f-86225386c4a0" />
+
+
 ---
 
 ## Q11) What is the name of the Microsoft program that allows for regular rotation of local administrator passwords?
@@ -235,8 +257,9 @@ To Confirm i had to Look on PowerShell command history and I found that LAPSView
 
 **Answer ==> LAPSViewers**
 
-<img width="1563" height="855" alt="Take-A-Lap-Q12-Q13" src="https://github.com/user-attachments/assets/8f35ebad-ee72-42ec-a079-2f03575d15f0" />
-<img width="1550" height="842" alt="Take-A-Lap-Q12-R" src="https://github.com/user-attachments/assets/68129190-1d43-41ce-ac9f-bfcb0a27551c" />
+
+<img width="1563" height="855" alt="Take-A-Lap-Q12-Q13" src="https://github.com/user-attachments/assets/f9d3994c-e8c0-4e71-89b3-5eac450b3a60" />
+<img width="1550" height="842" alt="Take-A-Lap-Q12-R" src="https://github.com/user-attachments/assets/bb906cd1-5e7f-46b8-9fab-8f4ef43e4e64" />
 
 ---
 
@@ -262,7 +285,9 @@ ObjectDN                                      ExtendedRightHolders
 OU=Workstations,DC=lab,DC=BTLO,DC=com         {NT AUTHORITY\SYSTEM, LAB\Domain Admins, LAB\LAPSViewers}  
 
 **Answer ==> NT AUTHORITY\SYSTEM, LAB\Domain Admins, LAB\LAPSViewers**
-<img width="1564" height="855" alt="Take-A-Lap-Q14" src="https://github.com/user-attachments/assets/f942473c-9a9f-4043-959d-86256efdee84" />
+
+<img width="1564" height="855" alt="Take-A-Lap-Q14" src="https://github.com/user-attachments/assets/4452cd25-8310-4d6d-bfe6-8c98a2c300e3" />
+
 
 ---
 
@@ -281,8 +306,10 @@ Attribute: ms-Mcs-AdmPwd
 Value: DxTX.@)D[):w-#$  
 
 **Answer ==> -Tn*N}Q&%/_a#>L, DxTX.@)D[):w-#$**
-<img width="1564" height="854" alt="Take-A-Lap-Q15" src="https://github.com/user-attachments/assets/8f15c03c-fe16-4019-8559-0bf96583a0cf" />
-<img width="1563" height="855" alt="Take-A-Lap-Q15-1" src="https://github.com/user-attachments/assets/6bbdc500-1358-44c5-8f8f-c3474223983b" />
+
+<img width="1564" height="854" alt="Take-A-Lap-Q15" src="https://github.com/user-attachments/assets/5efdc9fe-b878-47d4-8c65-0173cb828471" />
+<img width="1563" height="855" alt="Take-A-Lap-Q15-1" src="https://github.com/user-attachments/assets/7c97b474-b348-4c47-b354-a21355599c5f" />
+
 
 ---
 
@@ -305,8 +332,9 @@ After identifying the expiration timestamp and converting it to FILETIME format,
 Website used for conversion:  
 https://toolbox.souus.com/filetime-ldap-timestamp-converter/
 
-<img width="1564" height="855" alt="Take-A-Lap-Q16" src="https://github.com/user-attachments/assets/4ade256b-26ac-4f5d-9a64-6c7e402da8d7" />
-<img width="1834" height="755" alt="Take-A-Lap-Q16-1" src="https://github.com/user-attachments/assets/9c736577-2e36-4b2c-b61a-7450217c8df5" />
+<img width="1564" height="855" alt="Take-A-Lap-Q16" src="https://github.com/user-attachments/assets/6430ddea-1c30-4727-85e3-fb7fab863818" />
+<img width="1834" height="755" alt="Take-A-Lap-Q16-1" src="https://github.com/user-attachments/assets/3d7e2818-589b-47c2-b163-85d09151e4db" />
+
 
 ## Conclusion
 
@@ -318,4 +346,5 @@ In addition, I tracked the actions of a disgruntled administrator who accessed s
 
 This shows how important it is to properly control access and monitor user activity to prevent misuse of privileges.
 
-<img width="877" height="841" alt="Take-A-Lap-Completion" src="https://github.com/user-attachments/assets/bd2f37f5-a50e-4414-9650-96ff7f7bda03" />
+<img width="877" height="841" alt="Take-A-Lap-Completion" src="https://github.com/user-attachments/assets/f0429f62-0eca-4328-9eef-ea5749d3a688" />
+
