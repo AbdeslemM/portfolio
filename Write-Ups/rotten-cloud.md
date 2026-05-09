@@ -29,7 +29,9 @@ The analysis focused on identifying anomalous IP addresses, unusual API calls, a
 ## Lab Discovery
 So we first start to login into Splunk to start Our investigation, With indexing all we are provided with 4028 events Only which is not too much and make our investigation less harder that we can focus better while we dont see so noise events in this part.
 seeing multiple host and source can probably reveal multiple Cloud enviremont (AWS, AZure..).
-<img width="1888" height="599" alt="Lab discovery" src="https://github.com/user-attachments/assets/95714660-a6f7-48fb-8617-939d831aed0b" />
+<img width="1888" height="599" alt="Lab discovery" src="https://github.com/user-attachments/assets/b531dbaf-8f92-4531-9277-70fb94290e3e" />
+
+
 
 
 
@@ -43,12 +45,13 @@ To do this, I used the following Splunk query:
 
 While reviewing the `sourceIPAddress` field, I found two values. One appeared to be a domain name, and the other was an IP address, which looked like the attacker’s source IP. I then checked this IP with OSINT to confirm whether it was suspicious.
 
-<img width="1888" height="599" alt="FindingAIPQ1" src="https://github.com/user-attachments/assets/daa5ce95-8155-4b3c-ab46-2c4b8a8d6a6f" />
+<img width="608" height="285" alt="FindingAIPQ1" src="https://github.com/user-attachments/assets/6f322b21-e762-4e35-86c1-d823061df307" />
+
 
 After checking the location, it was clear that this IP did not match the expected behavior of legitimate users, since they were working remotely from India and this IP was coming from the USA.
 
 
-<img width="1888" height="599" alt="OSINTonIP" src="https://github.com/user-attachments/assets/6e17ed7c-5271-41ec-8f98-41d95f96232b" />
+<img width="794" height="467" alt="OSINTonIP" src="https://github.com/user-attachments/assets/817828e6-cd88-4942-b338-954a53b032ff" />
 
 
 
@@ -64,8 +67,10 @@ Now that we have the attacker’s IP, we need to use this filter:
 `index=* source="AWSCloudTrail.json" sourceIPAddress="172.235.129.221" | sort _time`
 
 While sorting this, there were actually three events/AWS API calls. Among those API calls, only one corresponded to the first phase, which was reconnaissance: **DescribeInstances**
-<img width="1888" height="599" alt="Q2related" src="https://github.com/user-attachments/assets/9457fcbb-0b13-4fce-930d-04a11699b88d" />
-<img width="1906" height="614" alt="AWsApiCallQ2" src="https://github.com/user-attachments/assets/616612dc-779e-49a8-9745-d6d76e43eaa2" />
+<img width="680" height="499" alt="Q2related" src="https://github.com/user-attachments/assets/4ad1b9d9-32f8-4c02-916a-5c9e76065f92" />
+
+<img width="1906" height="614" alt="AWsApiCallQ2" src="https://github.com/user-attachments/assets/5cfff40f-ae93-4d0e-b6dd-ca8465b4ed32" />
+
 
 
 
@@ -74,7 +79,9 @@ While sorting this, there were actually three events/AWS API calls. Among those 
 ## Q3) After gathering information about EC2 instances, the attacker attempted to find instance passwords to establish connections. Identify the secretID that contained the Windows instance password 
 
 The second event name is **GetSecretValue**, which is used to retrieve stored secrets like credentials — highly sensitive.
-<img width="1888" height="599" alt="SecretID-Q3" src="https://github.com/user-attachments/assets/af937955-4187-4ede-822c-18df17640f13" />
+
+<img width="1276" height="574" alt="SecretID-Q3" src="https://github.com/user-attachments/assets/8dc71d99-b3ff-47ba-8f7e-e8aaad39e03a" />
+
 
 **Answer ==> zeta9/windows/admin-password**
 
@@ -85,7 +92,9 @@ The second event name is **GetSecretValue**, which is used to retrieve stored se
 Now we need to look at the third and last event name, which is **GetObject** (S3). We specifically need to use this query to get the correct number of unique S3 buckets and the total downloaded files from those buckets:
 
 `index=* source="AWSCloudTrail.json" sourceIPAddress="172.235.129.221" eventName=GetObject | sort _time | table eventTime,requestParameters.bucketName,requestParameters.key`
-<img width="1900" height="418" alt="BucketsAndFilesQ4" src="https://github.com/user-attachments/assets/3aefaab3-841e-44b3-b65e-ad218ece667c" />
+
+<img width="1900" height="418" alt="BucketsAndFilesQ4" src="https://github.com/user-attachments/assets/22b7d876-d916-4832-8abc-533978953acb" />
+
 
 
 **Answer ==> 3, 5**
@@ -98,7 +107,9 @@ The first thing that came to my mind after knowing we needed the URL for this on
 `index=* sourcetype=AppServiceHTTPLogs | sort _time`
 
 The first event in Splunk clearly shows a URL.
-<img width="1282" height="598" alt="URLQ5" src="https://github.com/user-attachments/assets/3dacbd1b-a98e-4f8b-a7a6-bd125ef0d1f8" />
+
+<img width="1282" height="598" alt="URLQ5" src="https://github.com/user-attachments/assets/155ddfb9-cfda-4a19-86b8-208acbf137e0" />
+
 
 
 **Answer ==> zeta9-research-portal.azurewebsites.net**
@@ -110,10 +121,13 @@ The first event in Splunk clearly shows a URL.
 Using those HTTP logs, we got multiple events, so we needed to use the attacker’s IP to reduce the number of events and get a better look at the command.
 
 Filter: `index=* sourcetype=AppServiceHTTPLogs CIp="172.235.129.221" | sort _time`
-<img width="1630" height="548" alt="Command" src="https://github.com/user-attachments/assets/8088b9eb-9957-40c3-af92-b94d846bb27f" />
+
+<img width="1630" height="548" alt="Command" src="https://github.com/user-attachments/assets/bd71d457-f521-4104-9f86-85899f91eaaa" />
+
 
 We found a suspicious command, but first we needed to decode it using CyberChef URL decode, and then we got the exact command used.
-<img width="1528" height="430" alt="decodedCommandQ6" src="https://github.com/user-attachments/assets/36f04b66-df9a-4ea7-91b9-dcb931030614" />
+
+<img width="1528" height="430" alt="decodedCommandQ6" src="https://github.com/user-attachments/assets/5c073f0d-ec33-4d08-a218-bdeca62bd2f8" />
 
 **Answer ==> curl -H secret:4ebc6d54-f421-4321-81c4-fd9e29d28a0f 'http://169.254.130.3:8081/msi/token?api-version=2017-09-01&resource=https://management.azure.com/'**
 
@@ -125,7 +139,10 @@ The last step here was to look at the storage blob logs. We could filter them th
 `index=* sourcetype=StorageBlobLogs "172.235.129.221" | sort _time`
 
 We found three operation names: **GetBlob**, **ListBlob**, and **ListContainers**. For this one, we needed to filter it further, and then we were able to identify the blob name.
-<img width="1633" height="529" alt="BlobNQ7" src="https://github.com/user-attachments/assets/f0dc5a8e-9f88-41b5-9fc4-6580dcd44743" />
+
+<img width="1633" height="529" alt="BlobNQ7" src="https://github.com/user-attachments/assets/def3627c-de43-4f05-8453-a30ffe62349d" />
+
+
 **Answer ==> quantum-research-secrets**
 
 
@@ -134,14 +151,19 @@ We found three operation names: **GetBlob**, **ListBlob**, and **ListContainers*
 Now we need to look at the second operation, **GetBlob**, to get the number of files downloaded by the threat actor from Azure blob storage. We need to set this filter so it will be clear for us to get the exact number of files:
 
 `index=* sourcetype=StorageBlobLogs "172.235.129.221" OperationName=GetBlob | sort _time | table ObjectKey, "TimeGenerated [UTC]"`
-<img width="1900" height="455" alt="downloadedFilesQ8" src="https://github.com/user-attachments/assets/beac98c8-e068-49f6-aaa6-603e50e622ce" />
+
+<img width="1900" height="455" alt="downloadedFilesQ8" src="https://github.com/user-attachments/assets/60e1923f-155c-4a49-b042-9ee4842e0fa1" />
+
+
 **Answer ==> 6**
 
 
 ## Q9) To gain access to the secret division systems, the attacker defaced the organization's website by deploying malicious content. Provide the URL that hosted the defaced website code. (6 points)
 
 Here is another URL to find, so let’s go back to HTTP logs for the last part of this investigation. After using multiple commands by the attacker, like `ls -la` and `whoami`, the last command the attacker used showed the defaced website used to deploy the malicious content.
-<img width="1914" height="618" alt="defacedURLQ9" src="https://github.com/user-attachments/assets/49b4a3d8-2380-429e-b353-c3a2a80e6581" />
+
+<img width="1914" height="618" alt="defacedURLQ9" src="https://github.com/user-attachments/assets/1efefda1-583a-479b-b41a-8799848e5121" />
+
 
 **Answer ==> https://pastebin.com/raw/sBEs83q3**
 
@@ -156,7 +178,7 @@ Finally, the attacker defaced the organization’s website, showing that they we
 
 This investigation highlights the importance of monitoring cloud activity and detecting suspicious behavior early to prevent further compromise.
 
-<img width="849" height="656" alt="RottenCloudIR" src="https://github.com/user-attachments/assets/875c7a80-3184-4cc0-ab30-32ca4158c75c" />
+<img width="849" height="656" alt="RottenCloudIR" src="https://github.com/user-attachments/assets/3a8f67c0-cc6e-4c10-be45-1baf9e8b0e1c" />
 
 
 
