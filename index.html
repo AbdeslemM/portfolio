@@ -390,6 +390,7 @@
     .hero-orb::before{display:none}
   }
 </style>
+<link rel="stylesheet" href="assets/shine.css"/>
 </head>
 <body>
 
@@ -466,6 +467,8 @@
     <div class="achiev-card"><div class="achiev-rank">#1</div><div class="achiev-title">Former Global Rank</div><div class="achiev-desc">Reached the top position worldwide on Blue Team Labs Online, outperforming thousands of cybersecurity professionals globally.</div><div class="achiev-platform">BLUE TEAM LABS ONLINE · GLOBAL</div></div>
     <div class="achiev-card"><div class="achiev-rank" style="color:var(--cyan)">T10</div><div class="achiev-title">Top 10 Elite</div><div class="achiev-desc">Consistently ranked among the Top 10 Elite analysts on BTLO, demonstrating sustained excellence across hundreds of diverse challenges.</div><div class="achiev-platform">BLUE TEAM LABS ONLINE · ELITE TIER</div></div>
     <div class="achiev-card"><div class="achiev-rank" style="color:var(--green)">#1 🇩🇿</div><div class="achiev-title">All-Time Algeria Rank</div><div class="achiev-desc">The highest-ranked cybersecurity professional in Algeria on BTLO — all time — representing Algerian talent on the world stage.</div><div class="achiev-platform">BLUE TEAM LABS ONLINE · ALGERIA</div></div>
+    <div class="achiev-card"><div class="achiev-rank">#1</div><div class="achiev-title">Former Global Rank</div><div class="achiev-desc">Reached the top position worldwide on CyberDefenders as well, holding Global Rank #1 on both BTLO and CyberDefenders.</div><div class="achiev-platform">CYBERDEFENDERS · GLOBAL</div></div>
+    <div class="achiev-card"><div class="achiev-rank" style="color:var(--green)">#1 🇩🇿</div><div class="achiev-title">Algeria Rank</div><div class="achiev-desc">Rank #1 in Algeria on CyberDefenders, alongside the all-time #1 on BTLO.</div><div class="achiev-platform">CYBERDEFENDERS · ALGERIA</div></div>
   </div>
 </section>
 
@@ -568,6 +571,21 @@
       <div class="writeup-title">Jakie</div>
       <div class="writeup-desc">Insider threat NTFS forensics — $MFT and $UsnJrnl analysis, healthcare data exfiltration, file wiping with SDelete, Tails OS, USB exfil.</div>
       <div class="writeup-link">Read Investigation <span>→</span></div>
+    </div>
+  </div>
+
+  <div class="writeup-group">
+    <div class="writeup-group-label">CyberDefenders</div>
+    <div class="writeups-grid reveal">
+      <a class="writeup-card" href="Write-Ups/bpfdoor-straitstelecom.html">
+        <div class="writeup-meta">
+          <div class="writeup-type">Endpoint Forensics Investigation</div>
+          <span class="writeup-badge locked"><svg viewBox="0 0 16 16" width="12" height="12" aria-hidden="true" focusable="false"><path d="M4.5 7V5a3.5 3.5 0 0 1 7 0v2" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><rect x="2.5" y="7" width="11" height="8" rx="1.8" fill="currentColor"/><circle cx="8" cy="10.6" r="1.2" fill="#06090c"/></svg>LOCKED</span>
+        </div>
+        <div class="writeup-title">BPFDoor - StraitsTelecom</div>
+        <div class="writeup-desc">Two-host Linux intrusion - SSH brute force, sudo misconfiguration, tiny-shell backdoor, BPFDoor-style implant, RC4 C2 decryption from PCAP, CDR exfiltration.</div>
+        <div class="writeup-link">Read Investigation <span>→</span></div>
+      </a>
     </div>
   </div>
 </section>
@@ -899,7 +917,7 @@ document.addEventListener('keydown', e => {
 });
 
 /* ─── WRITE-UP CARDS: keyboard access + pointer spotlight ── */
-document.querySelectorAll('.writeup-card').forEach(card => {
+document.querySelectorAll('div.writeup-card').forEach(card => {
   card.setAttribute('role', 'button');
   card.setAttribute('tabindex', '0');
   card.addEventListener('keydown', e => {
@@ -1002,5 +1020,6 @@ if (!reduceMotion) {
   } else typeOut();
 }
 </script>
+<script src="assets/shine.js" defer></script>
 </body>
 </html>
